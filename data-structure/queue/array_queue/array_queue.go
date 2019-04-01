@@ -1,20 +1,18 @@
-package queue
+package array_queue
 
 import "sync"
 
 type Queue struct {
-	queue []interface{}
-	len   int
-	lock  *sync.Mutex
+	elements []interface{}
+	len      int
+	lock     sync.Mutex
 }
 
 func New() *Queue {
-
-	queue := &Queue{}
-	queue.queue = make([]interface{}, 0)
-	queue.len = 0
-	queue.lock = new(sync.Mutex)
-	return queue
+	return &Queue{
+		elements: make([]interface{}, 0),
+		len:      0,
+	}
 }
 
 func (q *Queue) Len() int {
@@ -37,7 +35,7 @@ func (q *Queue) Pop() (el interface{}) {
 
 	q.lock.Lock()
 	defer q.lock.Unlock()
-	el, q.queue = q.queue[0], q.queue[1:]
+	el, q.elements = q.elements[0], q.elements[1:]
 	q.len--
 	return
 
@@ -47,7 +45,7 @@ func (q *Queue) Push(el interface{}) {
 
 	q.lock.Lock()
 	defer q.lock.Unlock()
-	q.queue = append(q.queue, el)
+	q.elements = append(q.elements, el)
 	q.len++
 	return
 }
@@ -55,13 +53,13 @@ func (q *Queue) Push(el interface{}) {
 func (q *Queue) Peek() interface{} {
 	q.lock.Lock()
 	defer q.lock.Unlock()
-	return q.queue[0]
+	return q.elements[0]
 
 }
 
 func (q *Queue) Clear() {
 	q.lock.Lock()
 	defer q.lock.Unlock()
-	q.queue = append([]interface{}{})
+	q.elements = append([]interface{}{})
 	q.len = 0
 }

@@ -27,10 +27,9 @@ func TestArrayList(t *testing.T) {
 		t.Error()
 	}
 
-	if l.Contains(3){
+	if l.Contains(3) {
 		t.Error()
 	}
-
 
 	if l.Get(0) != 0 || l.Get(1) != 1 || l.Get(2) != 2 {
 		fmt.Println(l.Get(0))

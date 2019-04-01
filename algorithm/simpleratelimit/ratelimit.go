@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 type RateLimiter struct {
 	rate      uint64
 	allowance uint64
@@ -13,7 +12,6 @@ type RateLimiter struct {
 	unit      uint64
 	lastCheck uint64
 }
-
 
 func New(rate int, per time.Duration) *RateLimiter {
 	nano := uint64(per)
@@ -52,12 +50,10 @@ func (rl *RateLimiter) Limit() bool {
 	return false
 }
 
-
 func (rl *RateLimiter) UpdateRate(rate int) {
 	atomic.StoreUint64(&rl.rate, uint64(rate))
 	atomic.StoreUint64(&rl.max, uint64(rate)*rl.unit)
 }
-
 
 func (rl *RateLimiter) Undo() {
 	current := atomic.AddUint64(&rl.allowance, rl.unit)
@@ -66,7 +62,6 @@ func (rl *RateLimiter) Undo() {
 	}
 
 }
-
 
 func unixNano() uint64 {
 	return uint64(time.Now().UnixNano())

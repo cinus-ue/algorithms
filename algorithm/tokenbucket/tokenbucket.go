@@ -39,7 +39,6 @@ func (b *Bucket) SetRate(rate time.Duration) {
 	b.rateMutex.Unlock()
 }
 
-
 func (b *Bucket) AddToken(n int64) {
 
 }
@@ -64,7 +63,6 @@ func (b *Bucket) SpendToken(n int64) <-chan error {
 	}(b, n, c)
 	return c
 }
-
 
 func (b *Bucket) Drain() error {
 	// TODO replace this with a more solid approach (such as replacing the channel altogether)

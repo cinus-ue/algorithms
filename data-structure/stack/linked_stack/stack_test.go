@@ -1,12 +1,10 @@
-package stack
+package array_stack
 
 import (
-	"fmt"
-
 	"testing"
 )
 
-func TestNew(t *testing.T) {
+func TestLinkedStack(t *testing.T) {
 
 	s := New()
 	if !s.isEmpty() || s.len != 0 || s.Len() != 0 {
@@ -17,8 +15,7 @@ func TestNew(t *testing.T) {
 	s.Push(2)
 	s.Push(3)
 
-	if s.stack[0] != 3 || s.stack[1] != 2 || s.stack[2] != 1 {
-		fmt.Println(s.stack)
+	if s.elements.Get(0) != 3 || s.elements.Get(1) != 2 || s.elements.Get(2) != 1 {
 		t.Error()
 	}
 

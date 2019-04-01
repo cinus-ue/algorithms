@@ -17,17 +17,14 @@ func (b *bucket) Capacity() uint {
 	return b.capacity
 }
 
-
 func (b *bucket) Remaining() uint {
 	return b.remaining
 }
-
 
 func (b *bucket) Reset() time.Time {
 	b.remaining = b.capacity
 	return b.reset
 }
-
 
 func (b *bucket) Add(amount uint) (BucketState, error) {
 	b.mutex.Lock()
@@ -46,18 +43,15 @@ func (b *bucket) Add(amount uint) (BucketState, error) {
 
 }
 
-
 type Storage struct {
 	buckets map[string]*bucket
 }
-
 
 func New() *Storage {
 	return &Storage{
 		buckets: make(map[string]*bucket),
 	}
 }
-
 
 func (s *Storage) Create(name string, capacity uint, rate time.Duration) (BucketI, error) {
 	b, ok := s.buckets[name]

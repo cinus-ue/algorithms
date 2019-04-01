@@ -1,4 +1,4 @@
-package queue
+package array_queue
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestNew(t *testing.T) {
+func TestArrayQueue(t *testing.T) {
 
 	q := New()
 
@@ -18,8 +18,8 @@ func TestNew(t *testing.T) {
 	q.Push(2)
 	q.Push(3)
 
-	if q.queue[0] != 1 || q.queue[1] != 2 || q.queue[2] != 3 {
-		fmt.Println(q.queue)
+	if q.elements[0] != 1 || q.elements[1] != 2 || q.elements[2] != 3 {
+		fmt.Println(q.elements)
 		t.Error()
 	}
 

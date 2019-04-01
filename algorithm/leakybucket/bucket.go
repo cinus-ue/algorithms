@@ -7,7 +7,6 @@ import (
 
 var ErrorFull = errors.New("add exceeds free capacity")
 
-
 type BucketState struct {
 	Capacity  uint
 	Remaining uint
@@ -20,7 +19,6 @@ type BucketI interface {
 	Reset() time.Time
 	Add(uint) (BucketState, error)
 }
-
 
 type StorageI interface {
 	Create(name string, capacity uint, rate time.Duration) (BucketI, error)

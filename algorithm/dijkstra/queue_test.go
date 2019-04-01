@@ -13,7 +13,6 @@ func TestQueue(t *testing.T) {
 	q.Set("c", 3)
 	q.Set("b", 2)
 
-
 	if isEmpty := q.IsEmpty(); isEmpty {
 		t.Errorf("expected q.IsEmpty to report an non-empty query")
 	}
@@ -28,12 +27,10 @@ func TestQueue(t *testing.T) {
 		t.Errorf("expected queue to have 3 nodes instead got %v", nNodes)
 	}
 
-
 	firstKey := q.keys[0]
 	if firstKey != "a" {
 		t.Errorf("expected first key to be a instead got %v", firstKey)
 	}
-
 
 	nextKey, nextPriority := q.Next()
 	if nextKey != "a" {
@@ -42,7 +39,6 @@ func TestQueue(t *testing.T) {
 	if nextPriority != 1 {
 		t.Errorf("expected priority of a to be 1 instead got %v", nextPriority)
 	}
-
 
 	bPriority, ok := q.Get("b")
 	if !ok {
@@ -58,7 +54,6 @@ func TestQueue(t *testing.T) {
 
 func BenchmarkQueueReadWrite(b *testing.B) {
 	q := NewQueue()
-
 
 	q.Set("a", 10)
 	q.Set("b", 5)

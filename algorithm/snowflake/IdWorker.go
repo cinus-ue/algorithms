@@ -30,7 +30,6 @@ type IdWorker struct {
 	mutex         sync.Mutex
 }
 
-
 func NewIdWorker(workerId, datacenterId int64, twepoch int64) (*IdWorker, error) {
 
 	idWorker := &IdWorker{}
@@ -53,11 +52,9 @@ func NewIdWorker(workerId, datacenterId int64, twepoch int64) (*IdWorker, error)
 
 }
 
-
 func timeGen() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
-
 
 func tilNextMillis(lastTimestamp int64) int64 {
 	timestamp := timeGen()
@@ -67,7 +64,6 @@ func tilNextMillis(lastTimestamp int64) int64 {
 	return timestamp
 
 }
-
 
 func (id *IdWorker) NextId() (int64, error) {
 	id.mutex.Lock()
@@ -91,7 +87,6 @@ func (id *IdWorker) NextId() (int64, error) {
 	id.lastTimestamp = timestamp
 	return ((timestamp - id.twepoch) << timestampLeftShift) | (id.datacenterId << datacenterIdShift) | (id.workerId << workerIdShift) | id.sequence, nil
 }
-
 
 func (id *IdWorker) NextIds(num int) ([]int64, error) {
 

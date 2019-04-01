@@ -61,7 +61,6 @@ func (l *List) Set(index int, value interface{}) interface{} {
 	return oldValue
 }
 
-
 func (l *List) Contains(o interface{}) bool {
 	_, err := l.IndexOf(o)
 	if err != nil {
@@ -76,7 +75,7 @@ func (l *List) IndexOf(o interface{}) (int, error) {
 	if l.Len() == 0 {
 		return found, errors.New("empty list")
 	}
-	for index<=l.Length {
+	for index <= l.Length {
 		if l.elements[index] == o && found == -1 {
 			found = index
 			break

@@ -11,7 +11,6 @@ func (n key) LessThan(b interface{}) bool {
 	return n < value
 }
 
-
 func TestSearch(t *testing.T) {
 
 	tree := NewTree()
@@ -36,7 +35,6 @@ func TestSearch(t *testing.T) {
 		t.Error("Error value after modifyed other node")
 	}
 }
-
 
 func TestIterator(t *testing.T) {
 	tree := NewTree()
@@ -78,7 +76,6 @@ func TestRemove(t *testing.T) {
 		t.Error("Can't clear")
 	}
 
-
 	tree.Insert(key(4), "piu")
 	tree.Insert(key(2), "gfs")
 	tree.Insert(key(3), "lki")
@@ -90,7 +87,6 @@ func TestRemove(t *testing.T) {
 	tree.Remove(key(1))
 	tree.Remove(key(2))
 }
-
 
 func TestPreorder(t *testing.T) {
 	tree := NewTree()

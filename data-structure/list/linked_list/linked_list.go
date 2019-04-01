@@ -88,29 +88,34 @@ func (l *List) Add(value interface{}, index int) error {
 
 }
 
-func (l *List) Remove(value interface{}) error {
-	if l.Len() == 0 {
-		return errors.New("empty list")
-	}
-	if l.Head.Value == value {
-		l.Head = l.Head.Next
-		l.Length--
+func (l *List) Remove(index int) interface{} {
+	if !l.rangeCheck(index) {
 		return nil
+	}
+	node, err := l.getNode(index)
+	if err != nil {
+		return nil
+	}
 
+	next := node.Next
+	prev := node.Prev
+	if prev != nil {
+		prev.Next = next
 	}
-	found := 0
-	for n := l.Head; n != nil; n = n.Next {
-		if n.Value == value && found == 0 {
-			n.Next.Prev, n.Prev.Next = n.Prev, n.Next
-			l.Length--
-			found++
-		}
+	if next != nil {
+		next.Prev = prev
 	}
-	if found == 0 {
-		return errors.New("node not found")
-	}
-	return nil
 
+	if node == l.Head {
+		l.Head = node.Next
+	}
+	if node == l.Tail {
+		l.Tail = node.Prev
+	}
+
+	l.Length--
+
+	return node.Value
 }
 
 func (l *List) Get(index int) (interface{}) {
@@ -179,4 +184,8 @@ func (l *List) getNode(index int) (*Node, error) {
 		node = node.Next
 	}
 	return node, nil
+}
+
+func (l *List) rangeCheck(index int) bool {
+	return index >= 0 && index < l.Length
 }

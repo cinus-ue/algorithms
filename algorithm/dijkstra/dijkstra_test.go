@@ -39,7 +39,6 @@ func TestPath1(t *testing.T) {
 		"c": {"a": 80, "b": 20},
 	}
 
-
 	path, cost, err := g.ShortestPath("a", "c")
 	if err != nil {
 		t.Errorf("err = %v; want nil", err)
@@ -70,7 +69,6 @@ func TestPath2(t *testing.T) {
 		"d": {"e": 6},
 		"e": {"f": 9},
 	}
-
 
 	path, _, err := g.ShortestPath("a", "e")
 	if err != nil {

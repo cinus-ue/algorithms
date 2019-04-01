@@ -12,7 +12,6 @@ type Key interface {
 
 type Value interface{}
 
-
 type Node struct {
 	left, right, parent *Node
 	color               Color
@@ -20,15 +19,14 @@ type Node struct {
 	value               Value
 }
 
-type RBTree  struct {
+type RBTree struct {
 	root *Node
 	size int
 }
 
-func NewTree() *RBTree  {
-	return &RBTree {}
+func NewTree() *RBTree {
+	return &RBTree{size: 0}
 }
-
 
 func (t *RBTree) Size() int {
 	return t.size
@@ -50,11 +48,9 @@ func (t *RBTree) IsEmpty() bool {
 	return false
 }
 
-
 func (t *RBTree) Iterator() *Node {
 	return minimum(t.root)
 }
-
 
 func (t *RBTree) Insert(k Key, v Value) {
 	x := t.root
@@ -128,8 +124,6 @@ func (t *RBTree) Remove(k Key) {
 	}
 	t.size--
 }
-
-
 
 func (t *RBTree) insertFixup(z *Node) {
 	var y *Node
@@ -277,8 +271,6 @@ func (t *RBTree) rightRotate(x *Node) {
 	x.parent = y
 }
 
-
-
 func (t *RBTree) findnode(k Key) *Node {
 	x := t.root
 	for x != nil {
@@ -294,7 +286,6 @@ func (t *RBTree) findnode(k Key) *Node {
 	return nil
 }
 
-
 func (t *RBTree) transplant(u, v *Node) {
 	if u.parent == nil {
 		t.root = v
@@ -308,7 +299,6 @@ func (t *RBTree) transplant(u, v *Node) {
 	}
 	v.parent = u.parent
 }
-
 
 func (n *Node) Next() *Node {
 	return successor(n)
@@ -326,7 +316,6 @@ func successor(x *Node) *Node {
 	return y
 }
 
-
 func getColor(n *Node) Color {
 	if n == nil {
 		return BLACK
@@ -334,14 +323,12 @@ func getColor(n *Node) Color {
 	return n.color
 }
 
-
 func minimum(n *Node) *Node {
 	for n.left != nil {
 		n = n.left
 	}
 	return n
 }
-
 
 func maximum(n *Node) *Node {
 	for n.right != nil {
@@ -355,7 +342,6 @@ func (t *RBTree) Preorder() {
 		t.root.preorder()
 	}
 }
-
 
 func (n *Node) preorder() {
 	fmt.Printf("key:[%v] value:[%s]", n.key, n.value)
@@ -378,4 +364,3 @@ func (n *Node) preorder() {
 		n.right.preorder()
 	}
 }
-

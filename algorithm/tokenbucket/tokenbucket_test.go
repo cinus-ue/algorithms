@@ -11,11 +11,9 @@ func Example_BucketUse() {
 	RegulatedAction()
 }
 
-
 func RegulatedAction() {
 	// Some expensive action goes on here
 }
-
 
 func Test_BucketBuffering(t *testing.T) {
 
@@ -38,7 +36,6 @@ func Test_BucketBuffering(t *testing.T) {
 	}
 }
 
-
 func Test_BucketCreation(t *testing.T) {
 
 	const RATE = 4 * time.Second
@@ -52,7 +49,7 @@ func Test_BucketCreation(t *testing.T) {
 	<-b.SpendToken(1)
 	<-b.SpendToken(1)
 	<-b.SpendToken(1)
-	
+
 	before := time.Now()
 
 	<-b.SpendToken(1)

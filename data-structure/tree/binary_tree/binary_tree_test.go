@@ -22,11 +22,11 @@ func TestBinaryTree(t *testing.T) {
 	findTree := tree.Search(2)
 
 	if findTree.node != 2 {
-		t.Error("[Error] Search error")
+		t.Error("Search error")
 	}
 	findNilTree := tree.Search(100)
 	if findNilTree != nil {
-		t.Error("[Error] 2. Search error")
+		t.Error("Search error")
 	}
 
 }
