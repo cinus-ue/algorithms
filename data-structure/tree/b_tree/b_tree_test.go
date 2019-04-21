@@ -1,4 +1,4 @@
-package binary_tree
+package b_tree
 
 import (
 	"fmt"
@@ -17,9 +17,9 @@ func comparator(c1 interface{}, c2 interface{}) int {
 	return 0
 }
 
-func TestBinaryTree(t *testing.T) {
+func TestBTree(t *testing.T) {
 
-	tree := New(comparator)
+	tree := New(5, comparator)
 	tree.Put(1, "a")
 	tree.Put(2, "b")
 	tree.Put(3, "c")

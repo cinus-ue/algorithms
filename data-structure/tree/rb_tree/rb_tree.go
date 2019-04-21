@@ -6,10 +6,9 @@ type Color uint
 
 const RED, BLACK Color = 0, 1
 
-type Key interface {
-	LessThan(interface{}) bool
-}
+type Comparator func(c1 interface{}, c2 interface{}) bool
 
+type Key interface{}
 type Value interface{}
 
 type Node struct {
@@ -19,46 +18,48 @@ type Node struct {
 	value               Value
 }
 
-type RBTree struct {
-	root *Node
-	size int
+type Tree struct {
+	root       *Node
+	size       int
+	Comparator Comparator
 }
 
-func NewTree() *RBTree {
-	return &RBTree{size: 0}
+func New(comparator Comparator) *Tree {
+	return &Tree{size: 0, Comparator: comparator}
 }
 
-func (t *RBTree) Size() int {
+func (t *Tree) Size() int {
 	return t.size
 }
 
-func (t *RBTree) Clear() {
+func (t *Tree) Clear() {
 	t.root = nil
 	t.size = 0
 }
 
-func (t *RBTree) Search(k Key) *Node {
-	return t.findnode(k)
-}
-
-func (t *RBTree) IsEmpty() bool {
-	if t.root == nil {
-		return true
+func (t *Tree) Get(k Key) (value Value, found bool) {
+	node := t.findnode(k)
+	if node == nil {
+		return nil, false
 	}
-	return false
+	return node.value, true
 }
 
-func (t *RBTree) Iterator() *Node {
+func (t *Tree) IsEmpty() bool {
+	return t.size == 0
+}
+
+func (t *Tree) Iterator() *Node {
 	return minimum(t.root)
 }
 
-func (t *RBTree) Insert(k Key, v Value) {
+func (t *Tree) Put(k Key, v Value) {
 	x := t.root
 	var y *Node
 
 	for x != nil {
 		y = x
-		if k.LessThan(x.key) {
+		if t.Comparator(k, x.key) {
 			x = x.left
 		} else {
 			x = x.right
@@ -72,7 +73,7 @@ func (t *RBTree) Insert(k Key, v Value) {
 		z.color = BLACK
 		t.root = z
 		return
-	} else if z.key.LessThan(y.key) {
+	} else if t.Comparator(z.key, y.key) {
 		y.left = z
 	} else {
 		y.right = z
@@ -81,7 +82,7 @@ func (t *RBTree) Insert(k Key, v Value) {
 
 }
 
-func (t *RBTree) Remove(k Key) {
+func (t *Tree) Remove(k Key) {
 	z := t.findnode(k)
 	if z == nil {
 		return
@@ -125,7 +126,7 @@ func (t *RBTree) Remove(k Key) {
 	t.size--
 }
 
-func (t *RBTree) insertFixup(z *Node) {
+func (t *Tree) insertFixup(z *Node) {
 	var y *Node
 	for z.parent != nil && z.parent.color == RED {
 		if z.parent == z.parent.parent.left {
@@ -165,7 +166,7 @@ func (t *RBTree) insertFixup(z *Node) {
 	t.root.color = BLACK
 }
 
-func (t *RBTree) deleteFixup(x, parent *Node) {
+func (t *Tree) deleteFixup(x, parent *Node) {
 	var w *Node
 
 	for x != t.root && getColor(x) == BLACK {
@@ -235,7 +236,7 @@ func (t *RBTree) deleteFixup(x, parent *Node) {
 	}
 }
 
-func (t *RBTree) leftRotate(x *Node) {
+func (t *Tree) leftRotate(x *Node) {
 	y := x.right
 	x.right = y.left
 	if y.left != nil {
@@ -253,7 +254,7 @@ func (t *RBTree) leftRotate(x *Node) {
 	x.parent = y
 }
 
-func (t *RBTree) rightRotate(x *Node) {
+func (t *Tree) rightRotate(x *Node) {
 	y := x.left
 	x.left = y.right
 	if y.right != nil {
@@ -271,10 +272,10 @@ func (t *RBTree) rightRotate(x *Node) {
 	x.parent = y
 }
 
-func (t *RBTree) findnode(k Key) *Node {
+func (t *Tree) findnode(k Key) *Node {
 	x := t.root
 	for x != nil {
-		if k.LessThan(x.key) {
+		if t.Comparator(k, x.key) {
 			x = x.left
 		} else {
 			if k == x.key {
@@ -286,7 +287,7 @@ func (t *RBTree) findnode(k Key) *Node {
 	return nil
 }
 
-func (t *RBTree) transplant(u, v *Node) {
+func (t *Tree) transplant(u, v *Node) {
 	if u.parent == nil {
 		t.root = v
 	} else if u == u.parent.left {
@@ -337,30 +338,38 @@ func maximum(n *Node) *Node {
 	return n
 }
 
-func (t *RBTree) Preorder() {
-	if t.root != nil {
-		t.root.preorder()
+func (t *Tree) String() string {
+	str := "RBTree\n"
+	if !t.IsEmpty() {
+		output(t.root, "", true, &str)
 	}
+	return str
 }
 
-func (n *Node) preorder() {
-	fmt.Printf("key:[%v] value:[%s]", n.key, n.value)
-	if n.parent == nil {
-		fmt.Printf("parent:[nil]")
+func output(node *Node, prefix string, isTail bool, str *string) {
+	if node.right != nil {
+		newPrefix := prefix
+		if isTail {
+			newPrefix += "│   "
+		} else {
+			newPrefix += "    "
+		}
+		output(node.right, newPrefix, false, str)
+	}
+	*str += prefix
+	if isTail {
+		*str += "└── "
 	} else {
-		fmt.Printf("parent:[%v]", n.parent.key)
+		*str += "┌── "
 	}
-	if n.color == RED {
-		fmt.Print("color:[RED]")
-	} else {
-		fmt.Print("color:[BLACK]")
-	}
-	if n.left != nil {
-		fmt.Printf("left child:[%v]\n", n.key)
-		n.left.preorder()
-	}
-	if n.right != nil {
-		fmt.Printf("right child:[%v]\n", n.key)
-		n.right.preorder()
+	*str += fmt.Sprintf("%v", node.key) + "\n"
+	if node.left != nil {
+		newPrefix := prefix
+		if isTail {
+			newPrefix += "    "
+		} else {
+			newPrefix += "│   "
+		}
+		output(node.left, newPrefix, true, str)
 	}
 }

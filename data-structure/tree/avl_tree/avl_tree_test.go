@@ -1,4 +1,4 @@
-package binary_tree
+package avl_tree
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ func comparator(c1 interface{}, c2 interface{}) int {
 	return 0
 }
 
-func TestBinaryTree(t *testing.T) {
+func TestAVLTree(t *testing.T) {
 
 	tree := New(comparator)
 	tree.Put(1, "a")

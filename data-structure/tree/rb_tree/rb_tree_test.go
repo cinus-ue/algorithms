@@ -1,104 +1,59 @@
 package rb_tree
 
 import (
+	"fmt"
 	"testing"
 )
 
-type key int
-
-func (n key) LessThan(b interface{}) bool {
-	value, _ := b.(key)
-	return n < value
-}
-
-func TestSearch(t *testing.T) {
-
-	tree := NewTree()
-
-	tree.Insert(key(1), "erf")
-	tree.Insert(key(3), "ksd")
-	tree.Insert(key(4), "oiu")
-	tree.Insert(key(6), "njk")
-	tree.Insert(key(5), "pqu")
-	tree.Insert(key(2), "lak")
-
-	n := tree.Search(key(4))
-	if n.value != "oiu" {
-		t.Error("Error value")
-	}
-	n.value = "kkk"
-	if n.value != "kkk" {
-		t.Error("Error value modify")
-	}
-	value := tree.Search(key(5)).value
-	if value != "pqu" {
-		t.Error("Error value after modifyed other node")
-	}
-}
-
-func TestIterator(t *testing.T) {
-	tree := NewTree()
-
-	tree.Insert(key(1), "erf")
-	tree.Insert(key(3), "ksd")
-	tree.Insert(key(4), "oiu")
-	tree.Insert(key(6), "njk")
-	tree.Insert(key(5), "pqu")
-	tree.Insert(key(2), "lak")
-
-	it := tree.Iterator()
-
-	for it != nil {
-		it = it.Next()
+func comparator(x interface{}, y interface{}) bool {
+	if x.(int) < y.(int) {
+		return true
+	} else {
+		return false
 	}
 
 }
 
-func TestRemove(t *testing.T) {
-	tree := NewTree()
+func TestRBTree(t *testing.T) {
 
-	tree.Insert(key(1), "erf")
-	tree.Insert(key(3), "ksd")
-	tree.Insert(key(4), "oiu")
-	tree.Insert(key(6), "njk")
-	tree.Insert(key(5), "pqu")
-	tree.Insert(key(2), "lak")
-	for i := 1; i <= 6; i++ {
-		tree.Remove(key(i))
-		if tree.Size() != 6-i {
-			t.Error("Delete Error")
+	tree := New(comparator)
+	tree.Put(1, "a")
+	tree.Put(2, "b")
+	tree.Put(3, "c")
+	tree.Put(4, "d")
+	tree.Put(5, "e")
+	tree.Put(6, "f")
+	tree.Put(7, "g")
+
+	fmt.Println(tree)
+
+	tests := [][]interface{}{
+		{0, nil, false},
+		{1, "a", true},
+		{2, "b", true},
+		{3, "c", true},
+		{4, "d", true},
+		{5, "e", true},
+		{6, "f", true},
+		{7, "g", true},
+		{8, nil, false},
+	}
+
+	for _, test := range tests {
+		if value, found := tree.Get(test[0]); value != test[1] || found != test[2] {
+			t.Errorf("Got %v,%v expected %v,%v", value, found, test[1], test[2])
 		}
 	}
-	tree.Insert(key(1), "kkk")
-	tree.Clear()
-	tree.Preorder()
-	if tree.Search(key(1)) != nil {
-		t.Error("Can't clear")
+
+	tree.Remove(3)
+
+	_, found := tree.Get(3)
+	if found {
+		t.Error("Search error")
 	}
 
-	tree.Insert(key(4), "piu")
-	tree.Insert(key(2), "gfs")
-	tree.Insert(key(3), "lki")
-	tree.Insert(key(1), "qwe")
-	tree.Insert(key(8), "ytr")
-	tree.Insert(key(5), "bhg")
-	tree.Insert(key(7), "zli")
-	tree.Insert(key(9), "exm")
-	tree.Remove(key(1))
-	tree.Remove(key(2))
-}
-
-func TestPreorder(t *testing.T) {
-	tree := NewTree()
-
-	tree.Insert(key(1), "kou")
-	tree.Insert(key(3), "ihd")
-	tree.Insert(key(4), "awe")
-	tree.Insert(key(6), "kih")
-	tree.Insert(key(5), "mkj")
-	tree.Insert(key(2), "xnc")
-	if tree.Size() != 6 {
+	if tree.size != 6 {
 		t.Error("Error size")
 	}
-	tree.Preorder()
+
 }
