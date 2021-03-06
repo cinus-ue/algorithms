@@ -1,7 +1,7 @@
 package heap_sort
 
 import (
-	"github.com/cinus-ue/algorithms-go/algorithm/sort/utils"
+	"github.com/cinus-ue/algorithms/util"
 )
 
 func heapify(list []int, n int, i int) {
@@ -18,7 +18,7 @@ func heapify(list []int, n int, i int) {
 	}
 
 	if largest != i {
-		utils.Swap(list, i, largest)
+		util.Swap(list, i, largest)
 		heapify(list, n, largest)
 	}
 }
@@ -29,7 +29,7 @@ func Sort(list []int) []int {
 		heapify(list, len(list), i)
 	}
 	for i := len(list) - 1; i > 0; i-- {
-		utils.Swap(list, i, 0)
+		util.Swap(list, i, 0)
 		heapify(list, i, 0)
 	}
 	return list

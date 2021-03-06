@@ -118,7 +118,7 @@ func (l *List) Remove(index int) interface{} {
 	return node.Value
 }
 
-func (l *List) Get(index int) (interface{}) {
+func (l *List) Get(index int) interface{} {
 	node, err := l.getNode(index)
 	if err != nil {
 		return nil

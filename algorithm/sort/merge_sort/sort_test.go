@@ -2,13 +2,13 @@ package merge_sort
 
 import (
 	"fmt"
-	"github.com/cinus-ue/algorithms-go/algorithm/sort/utils"
+	"github.com/cinus-ue/algorithms/util"
 	"testing"
 )
 
 func TestMergeSort(t *testing.T) {
 
-	list := utils.GetArrayOfSize(100)
+	list := util.GetArrayOfSize(100)
 	fmt.Println(list)
 	Sort(list)
 	fmt.Println(list)

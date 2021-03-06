@@ -8,7 +8,7 @@ import (
 func TestLinkedStack(t *testing.T) {
 
 	s := New()
-	if !s.isEmpty() || s.len != 0 || s.Len() != 0 {
+	if !s.IsEmpty() || s.Len() != 0 {
 		t.Error()
 	}
 
@@ -32,4 +32,8 @@ func TestLinkedStack(t *testing.T) {
 		t.Error()
 	}
 
+	s.Clear()
+	if !s.IsEmpty() || s.Len() != 0 {
+		t.Error()
+	}
 }

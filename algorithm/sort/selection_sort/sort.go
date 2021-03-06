@@ -1,6 +1,6 @@
 package selection_sort
 
-import "github.com/cinus-ue/algorithms-go/algorithm/sort/utils"
+import "github.com/cinus-ue/algorithms/util"
 
 func Sort(list []int) {
 	for i := 0; i < len(list); i++ {
@@ -11,7 +11,7 @@ func Sort(list []int) {
 			}
 		}
 		if minIndex != i {
-			utils.Swap(list, i, minIndex)
+			util.Swap(list, i, minIndex)
 		}
 
 	}

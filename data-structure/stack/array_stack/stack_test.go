@@ -9,7 +9,7 @@ import (
 func TestArrayStack(t *testing.T) {
 
 	s := New()
-	if !s.isEmpty() || s.len != 0 || s.Len() != 0 {
+	if !s.IsEmpty() || s.len != 0 || s.Len() != 0 {
 		t.Error()
 	}
 

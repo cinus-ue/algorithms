@@ -7,14 +7,12 @@ import (
 
 type Stack struct {
 	elements *list.List
-	len      int
 	lock     sync.Mutex
 }
 
 func New() *Stack {
 	return &Stack{
 		elements: list.New(),
-		len:      0,
 	}
 }
 
@@ -22,26 +20,26 @@ func (s *Stack) Len() int {
 
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	return s.len
+
+	return s.elements.Len()
 
 }
 
-func (s *Stack) isEmpty() bool {
+func (s *Stack) IsEmpty() bool {
 
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	return s.len == 0
+
+	return s.elements.Len() == 0
 
 }
 
-func (s *Stack) Pop() (el interface{}) {
+func (s *Stack) Pop() interface{} {
 
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	el = s.elements.Front().Value
-	s.elements.Remove(s.elements.Front())
-	s.len--
-	return el
+
+	return s.elements.Remove(s.elements.Back())
 
 }
 
@@ -50,8 +48,7 @@ func (s *Stack) Push(el interface{}) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.elements.PushFront(el)
-	s.len++
+	s.elements.PushBack(el)
 
 }
 
@@ -59,6 +56,14 @@ func (s *Stack) Peek() interface{} {
 
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	return s.elements.Front().Value
 
+	return s.elements.Back().Value
+
+}
+
+func (s *Stack) Clear() {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	s.elements.Init()
 }

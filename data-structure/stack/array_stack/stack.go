@@ -23,7 +23,7 @@ func (s *Stack) Len() int {
 
 }
 
-func (s *Stack) isEmpty() bool {
+func (s *Stack) IsEmpty() bool {
 
 	s.lock.Lock()
 	defer s.lock.Unlock()

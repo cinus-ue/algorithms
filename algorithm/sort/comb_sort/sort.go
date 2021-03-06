@@ -6,7 +6,7 @@ func Sort(list []int) {
 	swapCount := 1
 	for gapValue >= 1 && swapCount != 0 {
 		if gapValue != 1 {
-			gapValue = int(float64(gapValue) / float64(1.3))
+			gapValue = int(float64(gapValue) / 1.3)
 		}
 		swapCount = 0
 		firstItem := 0

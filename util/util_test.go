@@ -1,8 +1,8 @@
-package utils
+package util
 
 import "testing"
 
-func TestUtils(t *testing.T) {
+func TestUtil(t *testing.T) {
 
 	list := GetArrayOfSize(10)
 

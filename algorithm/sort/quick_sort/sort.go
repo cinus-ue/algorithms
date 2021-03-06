@@ -1,6 +1,6 @@
 package quick_sort
 
-import "github.com/cinus-ue/algorithms-go/algorithm/sort/utils"
+import "github.com/cinus-ue/algorithms/util"
 
 func partitionRecursion(list []int, left int, right int) {
 
@@ -16,7 +16,7 @@ func partitionRecursion(list []int, left int, right int) {
 			high--
 		}
 		if low <= high {
-			utils.Swap(list, low, high)
+			util.Swap(list, low, high)
 			low++
 			high--
 		}
